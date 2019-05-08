@@ -148,9 +148,16 @@ impl<T> ReplyRaw<T> {
         };
         as_bytes(&header, |headerbytes| {
             let sender = self.sender.take().unwrap();
-            let mut sendbytes = headerbytes.to_vec();
-            sendbytes.extend(bytes);
-            sender.send(&sendbytes);
+            if bytes.len() == 0 {
+                sender.send(&headerbytes);
+            }
+            else if bytes.len() == 1 {
+                let sendbytes = [headerbytes[0], bytes[0]];
+                sender.send(&sendbytes);
+            }
+            else {
+                unreachable!();
+            }
         });
     }
 
