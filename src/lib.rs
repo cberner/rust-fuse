@@ -77,6 +77,12 @@ pub struct FileAttr {
     pub gid: u32,
     /// Rdev
     pub rdev: u32,
+    /// Block size
+    #[cfg(feature = "abi-7-9")]
+    pub blksize: u32,
+    /// Padding
+    #[cfg(feature = "abi-7-9")]
+    pub padding: u32,
     /// Flags (macOS only, see chflags(2))
     pub flags: u32,
 }
